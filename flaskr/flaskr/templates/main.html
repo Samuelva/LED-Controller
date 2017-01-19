@@ -9,7 +9,7 @@
   </script>
   <script type=text/javascript>
 			$(function() {
-			  $("button#powerbutton").bind("click", function() {
+			  $("#powerbutton").bind("click", function() {
 				  $.getJSON("/power",  
             function(data) {
 				      $("#ledstatus").text(data.status);
@@ -20,14 +20,14 @@
 			});
 
       $(function() {
-        $("button#changebutton").bind("click", function() {
+        $("#changebutton").bind("click", function() {
           $.getJSON("/change_colour", {
             r: $('input[name="r"]').val(),
             g: $('input[name="g"]').val(),
             b: $('input[name="b"]').val(),
             w: $('input[name="w"]').val(),
-          }, function() {
-            console.log("kek");
+          }, function(data) {
+            console.log(data.r);
           });
           return false;
         });
@@ -42,10 +42,10 @@
     </div>
     <button id="powerbutton" type="button">On</button>
     <div class="rgbw">
-      R<input type="text" name="r">
-      G<input type="text" name="g">
-      B<input type="text" name="b">
-      W<input type="text" name="w">
+      R<input type="text" name="r", value=255>
+      G<input type="text" name="g", value=255>
+      B<input type="text" name="b", value=255>
+      W<input type="text" name="w", value=255>
       <button id="changebutton" type="button">Change</button>
     </div>
 </body>

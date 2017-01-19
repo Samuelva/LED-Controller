@@ -24,11 +24,11 @@ class LedControl:
         self.strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, LED_STRIP)
         self.strip.begin()
 
-    def boot(self, color):
+    def boot(self, colour):
         for i in range(164):
-            self.strip.setPixelColor(i, Color(0, 0, 0, 0))
             self.strip.setBrightness(100)
-            self.strip.show()
+            self.strip.setPixelColor(i, Color(0, 0, 0, 0))
+        self.strip.show()
         for i in range(83):
             self.strip.setPixelColor(i, colour)
             self.strip.setPixelColor(165-i, colour)
@@ -44,16 +44,20 @@ class LedControl:
             self.strip.show()
             time.sleep(0.025)
 
-   def changeColour(self, colour):
-       for i in range(164):
-           self.strip.setPixelColor(i, colour)
-           self.strip.show()
-           time.sleep(0.01)
+    def changeColour(self, colour):
+        for i in range(164):
+            self.strip.setPixelColor(i, colour)
+            self.strip.show()
+            time.sleep(0.01)
 
     def shutdown(self):
-        for i in range(self.strip.numPixels()):
-            self.strip.setBrightness(0)
-        self.strip.show()
+        j = 1
+        for i in range(83, 166):
+            self.strip.setPixelColor(i, Color(0, 0, 0, 0))
+            self.strip.setPixelColor(i-j, Color(0, 0, 0, 0))
+            self.strip.show()
+            j += 2
+            time.sleep(0.02)
 
     def setStatus(self, status):
         self.status = status

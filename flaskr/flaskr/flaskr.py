@@ -23,6 +23,7 @@ def change_colour():
     b = request.args.get("b", 0, type=int)
     w = request.args.get("w", 0, type=int)
     led.changeColour(Color(r, g, b, w))
+    return jsonify(r="test")
 
 
 @app.route("/")
