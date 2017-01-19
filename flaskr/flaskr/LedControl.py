@@ -27,11 +27,11 @@ class LedControl:
     def boot(self, color):
         for i in range(164):
             self.strip.setPixelColor(i, Color(0, 0, 0, 0))
-        self.strip.setBrightness(100)
-        self.strip.show()
+            self.strip.setBrightness(100)
+            self.strip.show()
         for i in range(83):
-            self.strip.setPixelColor(i, color)
-            self.strip.setPixelColor(165-i, color)
+            self.strip.setPixelColor(i, colour)
+            self.strip.setPixelColor(165-i, colour)
             self.strip.show()
             time.sleep(0.02)
         for x in range(100, -1, -5):
@@ -43,7 +43,13 @@ class LedControl:
             self.strip.setBrightness(x)
             self.strip.show()
             time.sleep(0.025)
-                    
+
+   def changeColour(self, colour):
+       for i in range(164):
+           self.strip.setPixelColor(i, colour)
+           self.strip.show()
+           time.sleep(0.01)
+
     def shutdown(self):
         for i in range(self.strip.numPixels()):
             self.strip.setBrightness(0)

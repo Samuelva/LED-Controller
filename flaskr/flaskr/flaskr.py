@@ -5,7 +5,7 @@ from flask import Flask, session, g, redirect, url_for, abort, render_template, 
 app = Flask(__name__)
 led = LedControl()
 
-@app.route('/boot')
+@app.route("/power")
 def boot():
     if led.getStatus() == "Off":
         led.setStatus("On")
@@ -15,6 +15,14 @@ def boot():
         led.setStatus("Off")
         led.shutdown()
         return jsonify(status="Uit", buttonLabel="Aan")
+
+@app.route("/change_colour")
+def change_colour():
+    r = request.args.get("r", 0, type=int)
+    g = request.args.get("g", 0, type=int)
+    b = request.args.get("b", 0, type=int)
+    w = request.args.get("w", 0, type=int)
+    led.changeColour(Color(r, g, b, w))
 
 
 @app.route("/")

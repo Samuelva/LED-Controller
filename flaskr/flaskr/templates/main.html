@@ -2,30 +2,51 @@
 <html lang="en">
   <head>
     <title>Flaskr</title>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="{{url_for('static', filename='jquery.js') }}">\x3C/script>')</script>
     <script type=text/javascript>
     $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
   </script>
   <script type=text/javascript>
 			$(function() {
-			  $("button").click(function() {
-				  $.getJSON("/boot",  
+			  $("button#powerbutton").bind("click", function() {
+				  $.getJSON("/power",  
             function(data) {
-				      $("#ledStatus").text(data.status);
-              $("#onbutton").text(data.buttonLabel);
+				      $("#ledstatus").text(data.status);
+              $("#powerbutton").text(data.buttonLabel);
 				  });
 				  return false;
 			  });
 			});
+
+      $(function() {
+        $("button#changebutton").bind("click", function() {
+          $.getJSON("/change_colour", {
+            r: $('input[name="r"]').val(),
+            g: $('input[name="g"]').val(),
+            b: $('input[name="b"]').val(),
+            w: $('input[name="w"]').val(),
+          }, function() {
+            console.log("kek");
+          });
+          return false;
+        });
+      });
   </script>
   </head>
 <body>
   <div class=page>
-    <h1>Flaskr</h1>
     <div class="status">
       <h2>Led status:</h2>
-      <p id=ledStatus>Uit</p>
-    <button id="onbutton" type="button">Aan</button>
+      <p id=ledstatus>Off</p>
+    </div>
+    <button id="powerbutton" type="button">On</button>
+    <div class="rgbw">
+      R<input type="text" name="r">
+      G<input type="text" name="g">
+      B<input type="text" name="b">
+      W<input type="text" name="w">
+      <button id="changebutton" type="button">Change</button>
+    </div>
 </body>
 </html>
