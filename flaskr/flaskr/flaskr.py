@@ -1,14 +1,22 @@
-import boot
+import subprocess
 import os
-from flask import Flask, session, g, redirect, url_for, abort, render_template, flash, request
+from flask import Flask, session, g, redirect, url_for, abort, render_template, flash, request, jsonify
 
 app = Flask(__name__)
+ledStatus = "Uit"
 
-@app.route("/", methods=["GET", "POST"])
+@app.route('/boot')
+def boot():
+    if ledStatus == "Uit":
+        ledStatus = "Aan"
+        return jsonify(status="Aan", buttonLabel="Uit")
+    else:
+        ledStatus = "Uit"
+        return jsonify(status="Uit", buttonLabel="Aan")
+
+
+@app.route("/")
 def main():
-    if request.form == "POST":
-        print("lol")
-        # boot.boot(strip, Color(0, 0, 0, 255), 0)
     return(render_template("main.html"))
 
 
@@ -16,3 +24,4 @@ def main():
 # export FLASK_DEBUG=true
 # flask run
 
+# sudo PYTHONPATH=".:build/lib.linux-arm7l-2.7" python/examples/test2.py

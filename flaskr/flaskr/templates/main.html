@@ -4,13 +4,28 @@
     <title>Flaskr</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="{{url_for('static', filename='jquery.js') }}">\x3C/script>')</script>
+    <script type=text/javascript>
+    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+  </script>
+  <script type=text/javascript>
+			$(function() {
+			  $("button").click(function() {
+				  $.getJSON("/boot",  
+            function(data) {
+				      $("#ledStatus").text(data.status);
+              $("#onbutton").text(data.buttonLabel);
+				  });
+				  return false;
+			  });
+			});
+  </script>
   </head>
 <body>
   <div class=page>
     <h1>Flaskr</h1>
-    <form action="" method="post">
-      <input type=submit value=Toplol>
-    </form>  
-  </div>
+    <div class="status">
+      <h2>Led status:</h2>
+      <p id=ledStatus>Uit</p>
+    <button id="onbutton" type="button">Aan</button>
 </body>
 </html>
