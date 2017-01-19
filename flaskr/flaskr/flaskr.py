@@ -1,17 +1,19 @@
-import subprocess
-import os
+from LedControl import LedControl
+from neopixel import Color
 from flask import Flask, session, g, redirect, url_for, abort, render_template, flash, request, jsonify
 
 app = Flask(__name__)
-ledStatus = "Uit"
+led = LedControl()
 
 @app.route('/boot')
 def boot():
-    if ledStatus == "Uit":
-        ledStatus = "Aan"
+    if led.getStatus() == "Off":
+        led.setStatus("On")
+        led.boot(Color(0, 0, 0, 255))
         return jsonify(status="Aan", buttonLabel="Uit")
-    else:
-        ledStatus = "Uit"
+    elif led.getStatus() == "On":
+        led.setStatus("Off")
+        led.shutdown()
         return jsonify(status="Uit", buttonLabel="Aan")
 
 
