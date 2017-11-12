@@ -10,26 +10,28 @@ def boot():
     if led.getStatus() == "Off":
         led.setStatus("On")
         led.boot(Color(0, 0, 0, 255))
-        return jsonify(status="Aan", buttonLabel="Uit")
+        return jsonify(status="On", buttonLabel="Off")
     elif led.getStatus() == "On":
         led.setStatus("Off")
         led.shutdown()
-        return jsonify(status="Uit", buttonLabel="Aan")
+        return jsonify(status="Off", buttonLabel="On")
 
 @app.route("/change_colour")
 def change_colour():
-    r = request.args.get("r", 0, type=int)
-    g = request.args.get("g", 0, type=int)
-    b = request.args.get("b", 0, type=int)
-    w = request.args.get("w", 0, type=int)
-    led.changeColour(Color(r, g, b, w))
-    return jsonify(r="test")
+    if led.getStatus() == "On":
+        r = request.args.get("r", 0, type=int)
+        g = request.args.get("g", 0, type=int)
+        b = request.args.get("b", 0, type=int)
+        w = request.args.get("w", 0, type=int)
+        led.changeColour(Color(r, g, b, w))
+    # return jsonify(r="test")
 
 
 @app.route("/")
 def main():
     return(render_template("main.html"))
 
+# Top kek
 
 # export FLASK_APP=flaskr
 # export FLASK_DEBUG=true
